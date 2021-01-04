@@ -1,0 +1,80 @@
+@model sysmcltd.Models.Customer
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">                        
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+    </dl>
+    <br />
+    <h4>Contacts:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Office Number</th>
+                <th>Email</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var contact in Model.Contacts)
+        {
+            <tr>
+                <td>@contact.FullName</td>
+                <td>@contact.OfficeNumber</td>
+                <td>@contact.Email</td>
+                <td>@contact.Created</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <br />
+    <h4>Addresses:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>City</th>
+                <th>Street</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var addr in Model.Addresses)
+            {
+                <tr>
+                    <td>@addr.City</td>
+                    <td>@addr.Street</td>
+                    <td>@addr.Created</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

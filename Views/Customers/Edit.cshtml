@@ -1,0 +1,104 @@
+@model sysmcltd.Models.Customer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />            
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />                
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerNumber" class="control-label"></label>
+                <input asp-for="CustomerNumber" class="form-control" />                
+                <span asp-validation-for="CustomerNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <h4>Contacts:</h4>
+    <form asp-action="CreateCustomerContact">
+        <input type="hidden" asp-for="Id" />            
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Office Number</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var contact in Model.Contacts)
+            {
+                <tr>
+                    <td>@contact.FullName</td>
+                    <td>@contact.OfficeNumber</td>
+                    <td>@contact.Email</td>
+                    <td>@contact.Created</td>
+                </tr>
+            }
+                <tr>
+                    <td><input type="text" name="FullName" required/></td>
+                    <td><input type="phone" name="OfficeNumber" /></td>
+                    <td><input type="email" name="Email" /></td>
+                    <td><input type="submit" value="Add New Contact" class="btn btn-default" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>    
+</div>
+
+<div class="row">
+    <h4>Addresses:</h4>
+    <form asp-action="CreateCustomerAddress">
+        <input type="hidden" asp-for="Id" />            
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Street</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var addr in Model.Addresses)
+                {
+                    <tr>
+                        <td>@addr.City</td>
+                        <td>@addr.Street</td>
+                        <td>@addr.Created</td>
+                    </tr>
+                }
+                    <tr>
+                        <td><input type="text" name="City" required/></td>
+                        <td><input type="text" name="Street" required/></td>                    
+                        <td><input type="submit" value="Add New Address" class="btn btn-default" /></td>
+                    </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

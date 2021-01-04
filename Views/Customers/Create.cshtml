@@ -1,0 +1,73 @@
+@model sysmcltd.Models.Customer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="frm-create-customer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerNumber" class="control-label"></label>
+                <input asp-for="CustomerNumber" class="form-control" />
+                <span asp-validation-for="CustomerNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="button" id="btn-create-customer">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+    function UserNameExists(val) {
+        console.log(val);
+    }
+    
+    $(document).ready(function() {
+        $("#btn-create-customer").on("click", function() {
+            var name = $( "#frm-create-customer input[name=Name]" ).val();
+            var customerNumber = $( "#frm-create-customer input[name=CustomerNumber]" ).val();
+
+            if(name == undefined || name == '') {
+                alert('Name is requiered!');
+                return;
+            }
+
+            if( !customerNumber.match(/\b\d{9}\b/g) ) {
+                alert('Invalid customer nuber! Must be of 9 digits');
+                return;
+            }
+
+            $.get('/Customers/Exists', { name: name}, function(exists) {
+                console.log(exists);
+                if(exists) {
+                    alert('Customer with name: ' + name + ' alrady exist!');
+                    return;
+                }
+
+                $("#frm-create-customer").submit();
+            });
+        });
+    });
+    </script>
+
+}
